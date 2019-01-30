@@ -1,6 +1,7 @@
 package masterung.th.in.androidthai.mytutorial;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -37,10 +38,23 @@ public class PlayVideoFragment extends Fragment implements YouTubePlayer.OnIniti
 
     }   // Main Method
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == 1) {
+            getYouTubePlayerProvider().initialize(apiKey, this);
+        }
+    }
+
+    protected YouTubePlayer.Provider getYouTubePlayerProvider() {
+        return youTubePlayerView;
+    }
 
 
     private void showVideo() {
         youTubePlayerView = getView().findViewById(R.id.youTubePlayerView);
+        youTubePlayerView.initialize(apiKey, this);
     }
 
     @Override

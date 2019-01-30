@@ -20,7 +20,7 @@ public class ServiceActivity extends AppCompatActivity {
         createToolbar();
 
 //        Add Fragment
-        getSupportFragmentManager().beginTransaction().add(R.id.contentServiceFragment, new PlayVideoFragment()).commit();
+//        getSupportFragmentManager().beginTransaction().add(R.id.contentServiceFragment, new PlayVideoFragment()).commit();
 
     }   // Main Method
 
