@@ -3,13 +3,19 @@ package masterung.th.in.androidthai.mytutorial;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
 
@@ -28,15 +34,64 @@ public class MainFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
 
 //        Check Status
-        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
-        if (firebaseAuth.getUid() != null) {
-            startActivity(new Intent(getActivity(), ServiceActivity.class));
-        }
+        checkStatus();
 
 //        Register Controller
         registerController();
 
+//        Login Controller
+        loginController();
+
     }   // Main Method
+
+    private void loginController() {
+        Button button = getView().findViewById(R.id.btnLogin);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                EditText emailEditText = getView().findViewById(R.id.edtEmail);
+                EditText passwordEditText = getView().findViewById(R.id.edtPassword);
+
+                String email = emailEditText.getText().toString().trim();
+                String password = passwordEditText.getText().toString().trim();
+
+                final MyAlert myAlert = new MyAlert(getActivity());
+
+                if (email.isEmpty() || password.isEmpty()) {
+//                    Have Space
+                    myAlert.normalDialog(getString(R.string.have_space), getString(R.string.message_space));
+                } else {
+//                    No Space
+
+                    FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+                    firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (task.isSuccessful()) {
+//                                Authen True
+                                startActivity(new Intent(getActivity(), ServiceActivity.class));
+                                getActivity().finish();
+                            } else {
+//                                Authen False
+                                myAlert.normalDialog("Cannot Login", task.getException().toString());
+                            }
+                        }
+                    });
+
+                }   // if
+
+            }
+        });
+
+    }
+
+    private void checkStatus() {
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        if (firebaseAuth.getUid() != null) {
+            startActivity(new Intent(getActivity(), ServiceActivity.class));
+        }
+    }
 
     private void registerController() {
         TextView textView = getView().findViewById(R.id.txtRegister);
