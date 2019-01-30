@@ -1,7 +1,10 @@
 package masterung.th.in.androidthai.mytutorial;
 
 
+import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
@@ -11,6 +14,15 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 
 
 /**
@@ -46,9 +58,57 @@ public class RegisterFragment extends Fragment {
 
     private void checkValue() {
 
+        final ProgressDialog progressDialog = new ProgressDialog(getActivity());
+        progressDialog.setTitle("Upload To Server Process");
+        progressDialog.setMessage("Please Wait Few Minus...");
+
 //        Get Value From EditText
+        EditText nameEditText = getView().findViewById(R.id.edtName);
+        EditText emailEditText = getView().findViewById(R.id.edtEmail);
+        EditText passwordEditText = getView().findViewById(R.id.edtPassword);
 
+//        Change DataType
+        final String name = nameEditText.getText().toString().trim();
+        String email = emailEditText.getText().toString().trim();
+        String password = passwordEditText.getText().toString().trim();
 
+//        Check Space
+        if (name.isEmpty() || email.isEmpty() || password.isEmpty()) {
+//            Have Space
+            MyAlert myAlert = new MyAlert(getActivity());
+            myAlert.normalDialog("Have Space", "Please Fill All Blank");
+        } else {
+//            No Space
+            progressDialog.show();
+//            Register on Firebase
+            final FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+            firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                @Override
+                public void onComplete(@NonNull Task<AuthResult> task) {
+                    if (task.isSuccessful()) {
+//                        Register Success
+//                        Setup DisplayName
+                        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+                        UserProfileChangeRequest userProfileChangeRequest = new UserProfileChangeRequest.Builder().setDisplayName(name).build();
+                        firebaseUser.updateProfile(userProfileChangeRequest).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+//                                Change Activity
+                                progressDialog.dismiss();
+                                startActivity(new Intent(getActivity(), ServiceActivity.class));
+                                getActivity().finish();
+                            }
+                        });
+
+                    } else {
+                        MyAlert myAlert = new MyAlert(getActivity());
+                        myAlert.normalDialog("Cannot Register", task.getException().toString());
+                        progressDialog.dismiss();
+                    }
+                }
+            });
+
+        }   // if
 
     }
 
