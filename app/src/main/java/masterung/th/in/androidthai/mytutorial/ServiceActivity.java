@@ -20,10 +20,10 @@ public class ServiceActivity extends AppCompatActivity {
         createToolbar();
 
 //        Add Fragment
-//        getSupportFragmentManager().beginTransaction().add(R.id.contentServiceFragment, new PlayVideoFragment()).commit();
+        getSupportFragmentManager().beginTransaction().add(R.id.contentServiceFragment, new ListVideoFragment()).commit();
 
     }   // Main Method
-    
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
