@@ -23,6 +23,7 @@ public class ServiceActivity extends AppCompatActivity {
 //        getSupportFragmentManager().beginTransaction().add(R.id.contentServiceFragment, new PlayVideoFragment()).commit();
 
     }   // Main Method
+    
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
