@@ -90,6 +90,7 @@ public class MainFragment extends Fragment {
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         if (firebaseAuth.getUid() != null) {
             startActivity(new Intent(getActivity(), ServiceActivity.class));
+            getActivity().finish();
         }
     }
 
