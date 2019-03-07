@@ -56,6 +56,8 @@ public class ListVideoFragment extends Fragment {
         final ArrayList<String> nameStringArrayList = new ArrayList<>();
         final ArrayList<String> iconStringArrayList = new ArrayList<>();
         final ArrayList<String> youtubeKeyStringArrayList = new ArrayList<>();
+        final ArrayList<String> durationStringArrayList = new ArrayList<>();
+        final ArrayList<String> detailStringArrayList = new ArrayList<>();
 
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -74,16 +76,19 @@ public class ListVideoFragment extends Fragment {
                     iconStringArrayList.add(listVideoModel.getImage());
                     youtubeKeyStringArrayList.add(dataSnapshot1.getKey());
 
+                    durationStringArrayList.add(listVideoModel.getDuration());
+                    detailStringArrayList.add(listVideoModel.getDetail());
+
 
                     timesInts[0] += 1;
                 }   // for
 
-                Log.d(tag, nameStringArrayList.toString());
-                Log.d(tag, iconStringArrayList.toString());
+                Log.d(tag, durationStringArrayList.toString());
+                Log.d(tag, detailStringArrayList.toString());
                 Log.d(tag, youtubeKeyStringArrayList.toString());
 
 
-                ListVideoAdapter listVideoAdapter = new ListVideoAdapter(getActivity(), nameStringArrayList, iconStringArrayList, new OnClickItem() {
+                ListVideoAdapter listVideoAdapter = new ListVideoAdapter(getActivity(), nameStringArrayList, iconStringArrayList, durationStringArrayList, detailStringArrayList, new OnClickItem() {
                     @Override
                     public void onClickItem(View view, int position) {
                         Log.d(tag, "You Click ==> " + position);

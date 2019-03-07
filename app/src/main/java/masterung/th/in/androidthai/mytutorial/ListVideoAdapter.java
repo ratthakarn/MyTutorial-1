@@ -17,16 +17,18 @@ import java.util.ArrayList;
 public class ListVideoAdapter extends RecyclerView.Adapter<ListVideoAdapter.ListVideoViewHolder>{
 
     private Context context;
-    private ArrayList<String> nameStringArrayList, iconStringArrayList;
+    private ArrayList<String> nameStringArrayList, iconStringArrayList, durationStringArrayList, detailStringArrayList;
     private OnClickItem onClickItem;
     private LayoutInflater layoutInflater;
 
-    public ListVideoAdapter(Context context, ArrayList<String> nameStringArrayList, ArrayList<String> iconStringArrayList, OnClickItem onClickItem) {
+    public ListVideoAdapter(Context context, ArrayList<String> nameStringArrayList, ArrayList<String> iconStringArrayList, ArrayList<String> durationStringArrayList, ArrayList<String> detailStringArrayList, OnClickItem onClickItem) {
         this.layoutInflater = LayoutInflater.from(context);
         this.nameStringArrayList = nameStringArrayList;
         this.iconStringArrayList = iconStringArrayList;
+        this.durationStringArrayList = durationStringArrayList;
+        this.detailStringArrayList = detailStringArrayList;
         this.onClickItem = onClickItem;
-    }   // Constructor
+    }
 
     @NonNull
     @Override
@@ -43,9 +45,15 @@ public class ListVideoAdapter extends RecyclerView.Adapter<ListVideoAdapter.List
 
         String name = nameStringArrayList.get(i);
         String urlImage = iconStringArrayList.get(i);
+        String duration = "Duration : " + durationStringArrayList.get(i);
+        String detail = detailStringArrayList.get(i);
+
 
         listVideoViewHolder.nameTextView.setText(name);
         Picasso.get().load(urlImage).into(listVideoViewHolder.iconImageView);
+
+        listVideoViewHolder.durationTextView.setText(duration);
+        listVideoViewHolder.detailTextView.setText(detail);
 
         listVideoViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,12 +73,15 @@ public class ListVideoAdapter extends RecyclerView.Adapter<ListVideoAdapter.List
 
         private ImageView iconImageView;
         private TextView nameTextView;
+        private TextView durationTextView, detailTextView;
 
         public ListVideoViewHolder(@NonNull View itemView) {
             super(itemView);
 
             iconImageView = itemView.findViewById(R.id.imvIcon);
             nameTextView = itemView.findViewById(R.id.txtName);
+            durationTextView = itemView.findViewById(R.id.txtDuration);
+            detailTextView = itemView.findViewById(R.id.txtDetail);
 
         }
     }

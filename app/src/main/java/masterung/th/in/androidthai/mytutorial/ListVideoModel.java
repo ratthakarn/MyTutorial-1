@@ -3,19 +3,23 @@ package masterung.th.in.androidthai.mytutorial;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class ListVideoModel implements Parcelable {
+class ListVideoModel implements Parcelable {
 
-    private String Image, Name;
+    private String Detail, Duration, Image, Name;
 
     public ListVideoModel() {
     }
 
-    public ListVideoModel(String image, String name) {
+    public ListVideoModel(String detail, String duration, String image, String name) {
+        Detail = detail;
+        Duration = duration;
         Image = image;
         Name = name;
     }
 
     protected ListVideoModel(Parcel in) {
+        Detail = in.readString();
+        Duration = in.readString();
         Image = in.readString();
         Name = in.readString();
     }
@@ -31,6 +35,22 @@ public class ListVideoModel implements Parcelable {
             return new ListVideoModel[size];
         }
     };
+
+    public String getDetail() {
+        return Detail;
+    }
+
+    public void setDetail(String detail) {
+        Detail = detail;
+    }
+
+    public String getDuration() {
+        return Duration;
+    }
+
+    public void setDuration(String duration) {
+        Duration = duration;
+    }
 
     public String getImage() {
         return Image;
@@ -55,6 +75,8 @@ public class ListVideoModel implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(Detail);
+        dest.writeString(Duration);
         dest.writeString(Image);
         dest.writeString(Name);
     }
