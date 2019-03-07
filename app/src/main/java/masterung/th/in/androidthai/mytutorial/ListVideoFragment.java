@@ -55,7 +55,7 @@ public class ListVideoFragment extends Fragment {
         final String tag = "6MarchV1";
         final ArrayList<String> nameStringArrayList = new ArrayList<>();
         final ArrayList<String> iconStringArrayList = new ArrayList<>();
-        ArrayList<String> youtubeKeyStringArrayList = new ArrayList<>();
+        final ArrayList<String> youtubeKeyStringArrayList = new ArrayList<>();
 
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -72,17 +72,24 @@ public class ListVideoFragment extends Fragment {
 
                     nameStringArrayList.add(listVideoModel.getName());
                     iconStringArrayList.add(listVideoModel.getImage());
+                    youtubeKeyStringArrayList.add(dataSnapshot1.getKey());
+
 
                     timesInts[0] += 1;
                 }   // for
 
                 Log.d(tag, nameStringArrayList.toString());
                 Log.d(tag, iconStringArrayList.toString());
+                Log.d(tag, youtubeKeyStringArrayList.toString());
+
 
                 ListVideoAdapter listVideoAdapter = new ListVideoAdapter(getActivity(), nameStringArrayList, iconStringArrayList, new OnClickItem() {
                     @Override
                     public void onClickItem(View view, int position) {
                         Log.d(tag, "You Click ==> " + position);
+                        Intent intent = new Intent(getActivity(), PlayVideoActivity.class);
+                        intent.putExtra("youtubeKey", youtubeKeyStringArrayList.get(position));
+                        startActivity(intent);
                     }
                 });
 

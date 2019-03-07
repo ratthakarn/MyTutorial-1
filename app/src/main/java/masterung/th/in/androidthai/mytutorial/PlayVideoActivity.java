@@ -12,12 +12,15 @@ public class PlayVideoActivity extends YouTubeBaseActivity implements YouTubePla
 
     private YouTubePlayerView youTubePlayerView;
     private String apiKey = "AIzaSyA1F4KED5iEMIDKnfsQ97IRzzn69wswm_s";
-    private String youtubeVideoKey = "AFmWqLIqDZA";
+    private String youtubeVideoKey;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play_video);
+
+//        Get Value From Intent
+        youtubeVideoKey = getIntent().getStringExtra("youtubeKey");
 
 //        Youtube Controller
         youTubePlayerView = findViewById(R.id.youTubePlayerView);
