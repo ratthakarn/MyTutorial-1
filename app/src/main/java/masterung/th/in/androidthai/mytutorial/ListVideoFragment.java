@@ -29,9 +29,19 @@ import java.util.List;
  */
 public class ListVideoFragment extends Fragment {
 
+    String[] categoryStrings = {"VideoMasterUNG", "VideoMovie", "VideoTrevel"};
+    int index;
 
     public ListVideoFragment() {
         // Required empty public constructor
+    }
+
+    public static ListVideoFragment listVideoInstance(int index) {
+        ListVideoFragment listVideoFragment = new ListVideoFragment();
+        Bundle bundle = new Bundle();
+        bundle.putInt("Cat", index);
+        listVideoFragment.setArguments(bundle);
+        return listVideoFragment;
     }
 
     @Override
@@ -44,12 +54,15 @@ public class ListVideoFragment extends Fragment {
     }   // Main Method
 
     private void createRecyclerView() {
+
+        index = getArguments().getInt("Cat", 0);
+
         final RecyclerView recyclerView = getView().findViewById(R.id.recyclerVideo);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);
 
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-        DatabaseReference databaseReference = firebaseDatabase.getReference().child("VideoMasterUNG");
+        DatabaseReference databaseReference = firebaseDatabase.getReference().child(categoryStrings[index]);
 
         final int[] timesInts = {0};
         final String tag = "6MarchV1";

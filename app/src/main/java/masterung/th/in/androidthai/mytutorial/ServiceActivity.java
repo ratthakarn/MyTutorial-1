@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -20,10 +21,16 @@ public class ServiceActivity extends AppCompatActivity {
         createToolbar();
 
 //        Add Fragment
-        getSupportFragmentManager().beginTransaction().add(R.id.contentServiceFragment, new ListVideoFragment()).commit();
+        getSupportFragmentManager()
+                .beginTransaction()
+                .add(R.id.contentServiceFragment, new CatetoryFragment()).commit();
 
     }   // Main Method
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -54,6 +61,16 @@ public class ServiceActivity extends AppCompatActivity {
         String displayName = firebaseUser.getDisplayName();
 
         getSupportActionBar().setSubtitle(displayName + " Uses");
+
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+
 
     }
 
