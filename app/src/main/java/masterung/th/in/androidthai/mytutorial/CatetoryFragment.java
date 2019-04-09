@@ -1,6 +1,8 @@
 package masterung.th.in.androidthai.mytutorial;
 
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -34,7 +36,24 @@ public class CatetoryFragment extends Fragment implements View.OnClickListener {
         imageView2.setOnClickListener(this);
         imageView3.setOnClickListener(this);
 
+//        Phone Controller
+        phoneController();
+
     }   // Main Method
+
+    private void phoneController() {
+        ImageView imageView = getView().findViewById(R.id.imvPhone);
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(Intent.ACTION_CALL);
+                intent.setData(Uri.parse("tel:=0819229099"));
+                startActivity(intent);
+
+            }
+        });
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
