@@ -48,7 +48,8 @@ public class CatetoryFragment extends Fragment implements View.OnClickListener {
             public void onClick(View v) {
 
                 Intent intent = new Intent(Intent.ACTION_CALL);
-                intent.setData(Uri.parse("tel:=0819229099"));
+                String phone = "0819229099";
+                intent.setData(Uri.parse("tel:" + phone));
                 startActivity(intent);
 
             }
